@@ -1,5 +1,5 @@
 {
-    "name": "async-file-download",
+    "name": "async-file-dl",
     "version": "0.1.0",
     "description": "A simple async file downloader",
     "author": "OpenByte <development.openbyte@gmail.com>",
@@ -7,7 +7,7 @@
     "types": "types/index.d.ts",
     "repository": {
         "type": "git",
-        "url": "https://github.com/OpenByteDev/async-file-download.git"
+        "url": "https://github.com/OpenByteDev/async-file-dl.git"
     },
     "dependencies": {
         "axios": "^0.18.0",
@@ -25,7 +25,7 @@
         "lint": "tslint -p .",
         "lint-fix": "tslint -p . --fix",
         "build": "tsc",
-        "gen-doc": "typedoc --out ./docs ./lib/ --ignoreCompilerErrors --target ES6 --name SourceScrapper --excludePrivate --module commonjs --mode file --externalPattern node_modules --excludeExternals"
+        "gen-doc": "typedoc --out ./docs ./lib/ --ignoreCompilerErrors --target ES6 --name \"async-file-dl\" --excludePrivate --module commonjs --mode file --externalPattern node_modules --excludeExternals"
     },
     "keywords": [
         "async",
