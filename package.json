@@ -11,7 +11,8 @@
     },
     "dependencies": {
         "axios": "^0.18.0",
-        "filenamify": "^2.1.0"
+        "filenamify": "^2.1.0",
+        "trim-character": "^2.0.1"
     },
     "devDependencies": {
         "@types/filenamify": "^2.0.1",
