@@ -15,14 +15,23 @@
         "trim-character": "^2.0.1"
     },
     "devDependencies": {
+        "@types/chai": "^4.1.4",
         "@types/filenamify": "^2.0.1",
-        "@types/node": "^10.5.2",
-        "tslint": "^5.10.0",
+        "@types/mocha": "^5.2.5",
+        "@types/node": "^10.5.3",
+        "chai": "^4.1.2",
+        "istanbul": "^1.1.0-alpha.1",
+        "mocha": "^5.2.0",
+        "nyc": "^13.0.1",
+        "ts-node": "^7.0.0",
+        "tslint": "^5.11.0",
+        "tslint-eslint-rules": "^5.3.1",
         "typedoc": "^0.11.1",
         "typescript": "^2.9.2"
     },
     "scripts": {
-        "test": "node test/test.js",
+        "cover": "nyc npm run test",
+        "test": "mocha --timeout 20000 -r ts-node/register test/*.spec.ts",
         "lint": "tslint -p .",
         "lint-fix": "tslint -p . --fix",
         "build": "tsc",

@@ -13,31 +13,45 @@ export interface AxiosRequestConfigWithUrl extends AxiosRequestConfig {
 export let defaultConfig: AxiosRequestConfig = {
     method: 'get'
 };
+async function isDirectory(directory: string): Promise<boolean> {
+    await afs.access(directory);
+    const stat = await afs.lstat(directory);
+    return stat.isDirectory();
+}
+function getFilename(file: string | null, url: string): string | null {
+    if (typeof file !== 'string') {
+        file = getFilenameFromUrl(url);
+        if (file === null)
+            return null;
+    }
+    return filenamify(file);
+}
+function getFilenameFromUrl(url): string | null {
+    const pathname = u.parse(url).pathname;
+    if (typeof pathname !== 'undefined') {
+        const basename = trim(path.basename(pathname).trim(), '/');
+        if (basename !== '')
+            return path.basename(pathname as string);
+    }
+    return null;
+}
+export async function download(url: string, directory?: string, file?: string | null);
+export async function download(config: AxiosRequestConfigWithUrl, directory?: string, file?: string | null);
 export async function download(
     urlOrConfig: string | AxiosRequestConfigWithUrl,
     directory: string= '.',
     file: string | null= null): Promise<string> {
     directory = path.resolve(directory);
-    await afs.access(directory);
-    const stat = await afs.lstat(directory);
-    if (!stat.isDirectory())
-        return Promise.reject(new TypeError('Invalid directory specified'));
+    if (!(await isDirectory(directory)))
+        throw new TypeError('Invalid directory specified');
 
     const config = {...defaultConfig,
                     ...(typeof urlOrConfig === 'string' ? { url: urlOrConfig } : urlOrConfig),
                     responseType: 'stream'};
     const url = (config.baseURL || '') + config.url;
-
-    if (typeof file !== 'string') {
-        const pathname = u.parse(url).pathname;
-        if (typeof pathname !== 'undefined') {
-            const basename = trim(path.basename(pathname).trim(), '/');
-            if (basename !== '')
-                file = path.basename(pathname as string);
-            else return Promise.reject(new TypeError('Unable to extract filename from url'));
-        } else return Promise.reject(new TypeError('Unable to extract filename from url'));
-    }
-    file = filenamify(file);
+    file = getFilename(file, url);
+    if (file === null)
+        throw new TypeError('Unable to get file');
 
     const response = await axios(config);
 

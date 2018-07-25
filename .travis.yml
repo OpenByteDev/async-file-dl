@@ -1,9 +1,19 @@
 language: node_js
 node_js:
-  - "10"
+  - '10'
 notifications:
   email: false
 script:
-  - "npm run lint"
-  - "npm run build"
-  - "npm test"
+  - npm run lint
+  - npm run build
+  - npm run cover
+
+addons:
+  code_climate:
+      repo_token:
+        secure: idZf55vJdIFyrOU9D80FDEXFrWrpbY29ZFAMDknH1yX11HZ0zwrGEo0u9lXNyBR//kX46e9pXAPa4Bb6jc+nvfKOon4qBqnmRbuqrwkPZeMNm/SLfwwLCBvsc6u3ClYnq0N3wdsdadms10pUaugUz3XGDTa9EAAf96pKQjrCcuIuFjACarZovfPCAJeo/UfYicN556ap64snFolLYgDJaI0uW8jOpTucHCbLmOfEGDkxei7B3NZxIWrle9VsWBnKK05YYWPablAo+nMXZ3F+Iu/n2jGCZdgmkpja9Sx4CnteSDXWEbilAqTunu6hWyGE0PKZgqCzd5LSgkSvxJrAta80k7XWXV+YOX4AApnOPehnKBVOEy7ez89HEmrWD4Z6Ce4UJ7SFj8/U95vBLYdMv2gyLXhdj4uTo4847kavoQKrQb0n5sNNgYRZYS4/wcm90TcfKfZQC4L61R8qCBMU3Wfq5eG5FnUGpYKH7gr6L9GZab2uR8zHdKSKS9GbczWT2a9FDwSo7m32vYI1FSiZlE4Cfe8e+21XkqXMhsw4P1po7F9ZRGvap5YMcLwU0iQ3gQLSdgh8/G3UboAbPdXmWso9xPqLhD97UKsEEl4G6ccRGnB4tLYmO25Ibw/1o1rumBgm4BDRzQR9MHYQqy5B40MgllJudFVZNkNccgQIjaw=
+
+before_script:
+  - npm install codeclimate-test-reporter istanbul -g
+after_script:
+  - codeclimate-test-reporter < ./coverage/lcov.info
