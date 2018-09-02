@@ -10,14 +10,17 @@ const afs = fs.promises;
 export interface AxiosRequestConfigWithUrl extends AxiosRequestConfig {
     url: string;
 }
+
 export let defaultConfig: AxiosRequestConfig = {
     method: 'get'
 };
+
 async function isDirectory(directory: string): Promise<boolean> {
     await afs.access(directory);
     const stat = await afs.lstat(directory);
     return stat.isDirectory();
 }
+
 function getFilename(file: string | null, url: string): string | null {
     if (typeof file !== 'string') {
         file = getFilenameFromUrl(url);
@@ -26,6 +29,7 @@ function getFilename(file: string | null, url: string): string | null {
     }
     return filenamify(file);
 }
+
 function getFilenameFromUrl(url): string | null {
     const pathname = u.parse(url).pathname;
     if (typeof pathname !== 'undefined') {
@@ -35,8 +39,15 @@ function getFilenameFromUrl(url): string | null {
     }
     return null;
 }
-export async function download(url: string, directory?: string, file?: string | null);
-export async function download(config: AxiosRequestConfigWithUrl, directory?: string, file?: string | null);
+
+export async function download(
+    url: string,
+    directory?: string,
+    file?: string | null): Promise<string>;
+export async function download(
+    config: AxiosRequestConfigWithUrl,
+    directory?: string,
+    file?: string | null): Promise<string>;
 export async function download(
     urlOrConfig: string | AxiosRequestConfigWithUrl,
     directory: string= '.',
