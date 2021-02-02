@@ -3,9 +3,9 @@ import { download } from '../lib';
 import chai = require('chai');
 import 'mocha';
 
-import fs = require('fs');
+import * as fs from 'fs';
+import * as path from 'path';
 const afs = fs.promises;
-import path = require('path');
 
 chai.should();
 

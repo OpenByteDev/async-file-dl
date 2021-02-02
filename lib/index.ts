@@ -4,7 +4,6 @@ import fs = require('fs');
 import path = require('path');
 import { Readable } from 'stream';
 import trim = require('trim-character');
-import u = require('url');
 const afs = fs.promises;
 
 export interface AxiosRequestConfigWithUrl extends AxiosRequestConfig {
@@ -30,8 +29,8 @@ function getFilename(file: string | null, url: string): string | null {
     return filenamify(file);
 }
 
-function getFilenameFromUrl(url): string | null {
-    const pathname = u.parse(url).pathname;
+function getFilenameFromUrl(url: string): string | null {
+    const pathname = new URL(url).pathname;
     if (typeof pathname !== 'undefined') {
         const basename = trim(path.basename(pathname).trim(), '/');
         if (basename !== '')
@@ -64,7 +63,7 @@ export async function download(
     if (file === null)
         throw new TypeError('Unable to get file');
 
-    const response = await axios(config);
+    const response = await axios(config as any);
 
     const p = path.join(directory, file);
 
