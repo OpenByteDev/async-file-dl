@@ -43,16 +43,3 @@ describe('download', () => {
         p.should.equal(path.join(testDir, 'example.html'));
     });
 });
-
-/*Promise.all([
-    download('https://github.com/OpenByteDev/async-file-dl'),
-    download({ url: 'http://example.com/' }, '.', 'example.html')
-]).then(files => Promise.all(
-    files.map(file => {
-        console.log(file);
-        return afs.unlink(file);
-    })
-)).catch(e => {
-    console.error(e);
-    process.exit(1);
-});*/
